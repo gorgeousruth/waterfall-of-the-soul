@@ -1,108 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Waterfall of the Soul</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Waterfall of the Soul</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#0f1115;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;transition:background 1.5s ease}#canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.controls-top{position:absolute;top:20px;z-index:10}.audio-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:12px;transition:all .3s ease}.audio-btn:hover{background:rgba(255,255,255,.2)}.book-container{width:380px;height:560px;background:#161a22;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:5;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:45px 35px;border:1px solid rgba(255,255,255,.05);transition:all 1.5s ease}.page{display:none;flex-direction:column;height:100%;opacity:0;transition:opacity .8s ease}.page.active{display:flex;opacity:1}.title-layout{justify-content:center;align-items:center;text-align:center}.title-layout h1{font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:25px;line-height:1.4}.title-layout h2{font-size:13px;font-weight:300;font-style:italic;opacity:.6;margin-bottom:40px}.author-line{font-size:12px;letter-spacing:1px;opacity:.8;line-height:1.8}.copyright-layout{justify-content:center;font-size:11px;line-height:1.8;opacity:.5;text-align:center}.poem-layout{justify-content:center;font-size:10.5px;line-height:1.7;font-weight:400;white-space:pre-wrap;letter-spacing:.3px}.navigation{display:flex;justify-content:space-between;align-items:center;margin-top:15px;z-index:10;width:380px}.nav-btn{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:12px;padding:5px 10px;transition:color .3s}.nav-btn:hover{color:#fff}.page-num{color:rgba(255,255,255,.25);font-size:10px;letter-spacing:1px}@media(max-width:450px){.book-container{width:calc(100vw - 30px);height:calc(100vh - 130px);max-height:560px;padding:35px 28px}.navigation{width:calc(100vw - 30px)}}
+*{box-sizing:border-box;margin:0;padding:0}body{background:#0f1115;font-family:"Helvetica Neue",Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;transition:background 1.5s ease}#canvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.controls-top{position:absolute;top:20px;z-index:10}.audio-btn{background:#ffffff1a;border:1px solid #ffffff33;color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:12px}.book-container{width:380px;height:560px;background:#161a22;border-radius:12px;box-shadow:0 20px 50px #0008;z-index:5;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:45px 35px;border:1px solid #ffffff0d;transition:all 1.5s ease}.page{display:none;flex-direction:column;height:100%;opacity:0;transition:opacity .8s ease}.page.active{display:flex;opacity:1}.title-layout{justify-content:center;align-items:center;text-align:center}.title-layout h1{font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:25px;line-height:1.4}.title-layout h2{font-size:13px;font-weight:300;font-style:italic;opacity:.6;margin-bottom:40px}.author-line{font-size:12px;letter-spacing:1px;opacity:.8;line-height:1.8}.copyright-layout{justify-content:center;font-size:11px;line-height:1.8;opacity:.5;text-align:center}.poem-layout{justify-content:center;font-size:10.5px;line-height:1.7;white-space:pre-wrap;letter-spacing:.3px}.navigation{display:flex;justify-content:space-between;align-items:center;margin-top:15px;z-index:10;width:380px}.nav-btn{background:none;border:0;color:#ffffff66;cursor:pointer;font-size:12px;padding:5px 10px}.nav-btn:hover{color:#fff}.page-num{color:#ffffff40;font-size:10px;letter-spacing:1px}@media(max-width:450px){.book-container{width:calc(100vw - 30px);height:calc(100vh - 130px);max-height:560px;padding:35px 28px}.navigation{width:calc(100vw - 30px)}}
 </style>
 </head>
-<body>
-<canvas id="canvas"></canvas>
-<div class="controls-top"><button class="audio-btn" id="audioBtn">🔈 Play Healing Ambience</button></div>
-<div class="book-container" id="book">
+<body><canvas id="canvas"></canvas><div class="controls-top"><button class="audio-btn" id="audioBtn">🔈 Play Soul Melody</button></div><div class="book-container" id="book">
 <div class="page active title-layout" data-theme="spring"><h1>The Waterfall<br>of the Soul</h1><h2>A Collection of Fragments</h2><div class="author-line">Albert Chang<br>张家岳 &bull; 張家岳</div></div>
 <div class="page copyright-layout" data-theme="spring"><p>© 2026 Albert Chang. All Rights Reserved</p><p style="margin-top:20px">First Digital Pocket Edition</p></div>
-<div class="page poem-layout" data-theme="spring">spring nights are calm. at home with music on. relaxing at play.</div>
-<div class="page poem-layout" data-theme="spring">soon to be a new day.</div>
-<div class="page poem-layout" data-theme="spring">love is love. creation is creation.</div>
-<div class="page poem-layout" data-theme="autumn">all of these memories•. places you've been people you've met</div>
-<div class="page poem-layout" data-theme="winter">are like snowflakes in an angel's hand</div>
-<div class="page poem-layout" data-theme="autumn">butterflies fly to and fro together in the cold autumn day.</div>
-<div class="page poem-layout" data-theme="cosmic">the world will always be graceful</div>
-<div class="page poem-layout" data-theme="cosmic">soft night lit sky of quiet rays deep sorrows dream asleep
+<div class="page poem-layout" data-theme="spring">spring nights are calm. at home with music on. relaxing at play.</div><div class="page poem-layout" data-theme="spring">soon to be a new day.</div><div class="page poem-layout" data-theme="spring">love is love. creation is creation.</div><div class="page poem-layout" data-theme="autumn">all of these memories•. places you've been people you've met</div><div class="page poem-layout" data-theme="winter">are like snowflakes in an angel's hand</div><div class="page poem-layout" data-theme="autumn">butterflies fly to and fro together in the cold autumn day.</div><div class="page poem-layout" data-theme="cosmic">the world will always be graceful</div><div class="page poem-layout" data-theme="cosmic">soft night lit sky of quiet rays deep sorrows dream asleep
 
-waves brush sand froth fish and shore hope for us in memory</div>
-<div class="page poem-layout" data-theme="cosmic">if i could time travel, i'd find the first clapping human being in the universe.</div>
-<div class="page poem-layout" data-theme="cosmic">from shortbread to starlight...
+waves brush sand froth fish and shore hope for us in memory</div><div class="page poem-layout" data-theme="cosmic">if i could time travel, i'd find the first clapping human being in the universe.</div><div class="page poem-layout" data-theme="cosmic">from shortbread to starlight...
 from fresh air to dusk...
 from light-speed to sleep...
-wishes by the window-pane...</div>
-<div class="page poem-layout" data-theme="spring">tree of matrimony
+wishes by the window-pane...</div><div class="page poem-layout" data-theme="spring">tree of matrimony
 as consignment grows each year
 as rings add to the trunks of many a blessed tree
 rings of families, of memories, and of the times
 as I can greet my wife and son
 and father, mother and ancestors
-onwards I shall proceed</div>
-<div class="page poem-layout" data-theme="autumn">To miss the mark, to unravel the clouds, To kiss, to wink, to think out loud,
+onwards I shall proceed</div><div class="page poem-layout" data-theme="autumn">To miss the mark, to unravel the clouds, To kiss, to wink, to think out loud,
 To work, to learn, to care, and to spurn.
 To doubt, o my, and find life yet
 again,
-And we go on....</div>
-<div class="page poem-layout" data-theme="spring">respect to my grandparents.
-they give me hope.</div>
-<div class="page poem-layout" data-theme="autumn">one day there was a call. from a friend, she had no name, she said we've left and that's the truth, but actually i don't know,
+And we go on....</div><div class="page poem-layout" data-theme="spring">respect to my grandparents.
+they give me hope.</div><div class="page poem-layout" data-theme="autumn">one day there was a call. from a friend, she had no name, she said we've left and that's the truth, but actually i don't know,
 im so confused, the story goes on, each day is a big step, my time moves along,
-with a beat and a laugh and a smile.</div>
-<div class="page poem-layout" data-theme="winter">elders age with grace...
-the fleeting moments we strive to cherish...</div>
-<div class="page poem-layout" data-theme="cosmic">where, indeed, are all those brave souls?
+with a beat and a laugh and a smile.</div><div class="page poem-layout" data-theme="winter">elders age with grace...
+the fleeting moments we strive to cherish...</div><div class="page poem-layout" data-theme="cosmic">where, indeed, are all those brave souls?
 who, in another life, had danced with wu ze tian?
 who knows what I mean?
 when will tomorrow bring us something better?
 why don't we try to sleep?
-let's learn the histories of earth...</div>
-<div class="page poem-layout" data-theme="spring">I held the ladder as my father cut the tree branches. Tree pulp and chips rained down upon my hat and hoodie as the new quiet and strong chainsaw sawed through each branch. The deer in our area like to nibble on the cut tree branches and leaves.</div>
-<div class="page poem-layout" data-theme="deep">as i sink, i swim
+let's learn the histories of earth...</div><div class="page poem-layout" data-theme="spring">I held the ladder as my father cut the tree branches. Tree pulp and chips rained down upon my hat and hoodie as the new quiet and strong chainsaw sawed through each branch. The deer in our area like to nibble on the cut tree branches and leaves.</div><div class="page poem-layout" data-theme="deep">as i sink, i swim
 as i breathe, i sleep
 as i hear, i speak
 as i think, i weep
 as i grow, i age
 as i laugh, i dance
 as i drink, i eat
-as i run, i prance</div>
-<div class="page poem-layout" data-theme="spring">careful or carefree? sweet or sagacious? the path less traveled, or the humble city roads?
+as i run, i prance</div><div class="page poem-layout" data-theme="spring">careful or carefree? sweet or sagacious? the path less traveled, or the humble city roads?
 music, prose, or poetry?
 tambourines with lyrics and melodies? endings to new short stories? even an entry in shimagurashi?
-• oooo o thank yoooou!</div>
-<div class="page poem-layout" data-theme="cosmic">There's more than one mountain top.
+• oooo o thank yoooou!</div><div class="page poem-layout" data-theme="cosmic">There's more than one mountain top.
 There's more than one totem pole.
 There's more than one right way to live.
 There's more than one good deed to do.
-There's more than one lesson worth learning</div>
-<div class="page poem-layout" data-theme="summer">To fold the sheets
+There's more than one lesson worth learning</div><div class="page poem-layout" data-theme="summer">To fold the sheets
 Of the bedding
 On a cool summer day
 The autumn drawing near
-Fresh and silent hope</div>
-<div class="page poem-layout" data-theme="summer">Cooking pancakes now
+Fresh and silent hope</div><div class="page poem-layout" data-theme="summer">Cooking pancakes now
 The breeze and morning sun move
-The weekend feels nice</div>
-<div class="page poem-layout" data-theme="cosmic">buoyant magnetar
-flying through radio space will we hear you soon?</div>
-<div class="page poem-layout" data-theme="deep">good kids don't take sides. bad kids don't know they're bad. is this true? is this all false?</div>
-<div class="page poem-layout" data-theme="deep">The waterfall of the soul, as your thoughts rain down this torrent, and become the words you write with your hand on the pen on the paper.</div>
-<div class="page poem-layout" data-theme="cosmic">Oh to be the silver lining for even a brief moment in someone's life.
-Is that a good thing or a bad thing... or something else altogether?</div>
-<div class="page poem-layout" data-theme="spring">Stay focused. A good tomorrow needs a good present.</div>
-<div class="page poem-layout" data-theme="summer">An ocean of lemonade, with icebergs made of strawberry, floating, swirling, and beckoning to those poor and hungry souls drifting in the after life...</div>
-</div>
-<div class="navigation"><button class="nav-btn" id="prevBtn">PREV</button><div class="page-num" id="pageNum">1 / 30</div><button class="nav-btn" id="nextBtn">NEXT</button></div>
+The weekend feels nice</div><div class="page poem-layout" data-theme="cosmic">buoyant magnetar
+flying through radio space will we hear you soon?</div><div class="page poem-layout" data-theme="deep">good kids don't take sides. bad kids don't know they're bad. is this true? is this all false?</div><div class="page poem-layout" data-theme="deep">The waterfall of the soul, as your thoughts rain down this torrent, and become the words you write with your hand on the pen on the paper.</div><div class="page poem-layout" data-theme="cosmic">Oh to be the silver lining for even a brief moment in someone's life.
+Is that a good thing or a bad thing... or something else altogether?</div><div class="page poem-layout" data-theme="spring">Stay focused. A good tomorrow needs a good present.</div><div class="page poem-layout" data-theme="summer">An ocean of lemonade, with icebergs made of strawberry, floating, swirling, and beckoning to those poor and hungry souls drifting in the after life...</div>
+</div><div class="navigation"><button class="nav-btn" id="prevBtn">PREV</button><div class="page-num" id="pageNum">1 / 30</div><button class="nav-btn" id="nextBtn">NEXT</button></div>
 <script>
 const pages=document.querySelectorAll('.page'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),pageNum=document.getElementById('pageNum'),body=document.body,book=document.getElementById('book'),canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');let currentIndex=0;
 const themes={spring:{bg:'#0d1611',text:'#b4f1c5',box:'#14241b',shadow:'rgba(180,241,197,.1)'},summer:{bg:'#1c180e',text:'#ffe599',box:'#2b2414',shadow:'rgba(255,229,153,.1)'},autumn:{bg:'#1a120b',text:'#f9cb9c',box:'#2b1d11',shadow:'rgba(249,203,156,.1)'},winter:{bg:'#0f141c',text:'#c9daf8',box:'#18202c',shadow:'rgba(201,218,248,.1)'},cosmic:{bg:'#0b0914',text:'#d9d2e9',box:'#131024',shadow:'rgba(217,210,233,.1)'},deep:{bg:'#080c12',text:'#a4c2f4',box:'#0f1722',shadow:'rgba(164,194,244,.1)'}};
-function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}addEventListener('resize',resizeCanvas);resizeCanvas();let particles=[];function createParticles(type){particles=[];for(let i=0;i<(type==='cosmic'?80:40);i++)particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+.5,vx:(Math.random()-.5)*.3,vy:type==='winter'?Math.random()*.5+.2:(Math.random()-.5)*.2,alpha:Math.random()*.5+.2})}function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);let key=pages[currentIndex].dataset.theme||'spring';ctx.fillStyle=themes[key].text;particles.forEach(p=>{ctx.globalAlpha=p.alpha;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y>canvas.height)p.y=0;if(p.y<0)p.y=canvas.height});requestAnimationFrame(animate)}function updatePage(){pages.forEach((p,i)=>p.classList.toggle('active',i===currentIndex));let key=pages[currentIndex].dataset.theme||'spring',t=themes[key];body.style.background=t.bg;book.style.background=t.box;book.style.color=t.text;book.style.boxShadow=`0 25px 60px ${t.shadow}`;book.style.borderColor=`rgba(${parseInt(t.text.slice(1,3),16)},${parseInt(t.text.slice(3,5),16)},${parseInt(t.text.slice(5,7),16)},.15)`;pageNum.textContent=`${currentIndex+1} / ${pages.length}`;createParticles(key)}nextBtn.onclick=()=>{if(currentIndex<pages.length-1){currentIndex++;updatePage()}};prevBtn.onclick=()=>{if(currentIndex>0){currentIndex--;updatePage()}};document.onkeydown=e=>{if(e.key==='ArrowRight')nextBtn.click();if(e.key==='ArrowLeft')prevBtn.click()};
+function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}addEventListener('resize',resizeCanvas);resizeCanvas();let particles=[];function createParticles(type){particles=[];for(let i=0;i<(type==='cosmic'?80:40);i++)particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+.5,vx:(Math.random()-.5)*.3,vy:type==='winter'?Math.random()*.5+.2:(Math.random()-.5)*.2,alpha:Math.random()*.5+.2})}function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);let key=pages[currentIndex].dataset.theme||'spring';ctx.fillStyle=themes[key].text;particles.forEach(p=>{ctx.globalAlpha=p.alpha;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y>canvas.height)p.y=0;if(p.y<0)p.y=canvas.height});requestAnimationFrame(animate)}function updatePage(){pages.forEach((p,i)=>p.classList.toggle('active',i===currentIndex));let key=pages[currentIndex].dataset.theme||'spring',t=themes[key];body.style.background=t.bg;book.style.background=t.box;book.style.color=t.text;book.style.boxShadow=`0 25px 60px ${t.shadow}`;pageNum.textContent=`${currentIndex+1} / ${pages.length}`;createParticles(key)}nextBtn.onclick=()=>{if(currentIndex<pages.length-1){currentIndex++;updatePage()}};prevBtn.onclick=()=>{if(currentIndex>0){currentIndex--;updatePage()}};document.onkeydown=e=>{if(e.key==='ArrowRight')nextBtn.click();if(e.key==='ArrowLeft')prevBtn.click()};
 
-// Louder, audible healing ambience: rain, ocean surf, spring wind, and leaf rustle.
-let audioCtx=null,master=null,isPlaying=false,nodes=[],leafTimer=null;const audioBtn=document.getElementById('audioBtn');
-function noiseBuffer(){let b=audioCtx.createBuffer(1,audioCtx.sampleRate*2,audioCtx.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b}
-function stopAmbient(){nodes.forEach(n=>{try{n.stop()}catch(e){}});nodes=[];if(leafTimer){clearTimeout(leafTimer);leafTimer=null}if(master)master.gain.cancelScheduledValues(audioCtx.currentTime)}
-function noiseLayer(filterType,frequency,gain,quality=0.5){let s=audioCtx.createBufferSource(),f=audioCtx.createBiquadFilter(),g=audioCtx.createGain();s.buffer=noiseBuffer();s.loop=true;f.type=filterType;f.frequency.value=frequency;f.Q.value=quality;g.gain.value=gain;s.connect(f);f.connect(g);g.connect(master);s.start();nodes.push(s)}
-function leafRustle(){if(!isPlaying)return;let s=audioCtx.createBufferSource(),f=audioCtx.createBiquadFilter(),g=audioCtx.createGain(),now=audioCtx.currentTime;s.buffer=noiseBuffer();f.type='bandpass';f.frequency.value=1800+Math.random()*1200;f.Q.value=.7;g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.055,now+.18);g.gain.exponentialRampToValueAtTime(.0001,now+1.8+Math.random()*1.5);s.connect(f);f.connect(g);g.connect(master);s.start(now);s.stop(now+4);nodes.push(s);leafTimer=setTimeout(leafRustle,3500+Math.random()*6500)}
-function startAmbient(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();if(!master){master=audioCtx.createGain();master.gain.value=.65;master.connect(audioCtx.destination)}stopAmbient();master.gain.setValueAtTime(.65,audioCtx.currentTime);noiseLayer('lowpass',1900,.09,.5);noiseLayer('bandpass',600,.065,.7);noiseLayer('lowpass',500,.13,.35);let freqs=[130.81,164.81,196,246.94];freqs.forEach((f,i)=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain(),l=audioCtx.createOscillator(),lg=audioCtx.createGain();o.type='sine';o.frequency.value=f;l.frequency.value=.06+i*.018;lg.gain.value=5;l.connect(lg);lg.connect(o.frequency);g.gain.value=.008;o.connect(g);g.connect(master);o.start();l.start();nodes.push(o,l)});leafRustle()}
-audioBtn.onclick=()=>{if(!isPlaying){isPlaying=true;audioBtn.textContent='⏸️ Pause Healing Ambience';startAmbient()}else{isPlaying=false;audioBtn.textContent='🔈 Play Healing Ambience';stopAmbient()}};updatePage();animate();
-</script>
-</body>
-</html>
+// Original soulful melody: sparse Chinese-pentatonic phrasing with a wistful, game-like spaciousness.
+// It is an original composition, not a copy of any existing theme.
+let audioCtx=null,master=null,delay=null,isPlaying=false,timer=null,melodyStep=0;const audioBtn=document.getElementById('audioBtn');
+const pentatonic=[261.63,293.66,349.23,392,440,523.25,587.33,698.46];
+const phrases=[[0,2,4,5,4,2,1,null],[4,5,7,6,4,2,null,null],[2,1,0,2,4,2,1,null],[0,null,1,2,1,0,null,null]];
+function note(freq,when,length,volume=.12){let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.setValueAtTime(freq,when);g.gain.setValueAtTime(.0001,when);g.gain.exponentialRampToValueAtTime(volume,when+.04);g.gain.exponentialRampToValueAtTime(.0001,when+length);o.connect(g);g.connect(master);o.start(when);o.stop(when+length+.1)}
+function playPhrase(){if(!isPlaying)return;let now=audioCtx.currentTime+.03,phrase=phrases[melodyStep%phrases.length],tempo=1.15;phrase.forEach((index,i)=>{if(index!==null){let octave=melodyStep%5===3&&i===0?.5:1;note(pentatonic[index]*octave,now+i*tempo,tempo*1.65,.10)}});if(melodyStep%2===0)note(pentatonic[0]/2,now,tempo*5,.045);melodyStep++;timer=setTimeout(playPhrase,phrase.length*tempo*1000+900)}
+function startMelody(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();if(!master){master=audioCtx.createGain();master.gain.value=.5;delay=audioCtx.createDelay(2);delay.delayTime.value=.42;let echoGain=audioCtx.createGain();echoGain.gain.value=.18;master.connect(audioCtx.destination);master.connect(delay);delay.connect(echoGain);echoGain.connect(audioCtx.destination)}playPhrase()}
+function stopMelody(){clearTimeout(timer);timer=null;if(master){master.gain.cancelScheduledValues(audioCtx.currentTime);master.gain.setTargetAtTime(.0001,audioCtx.currentTime,.08);setTimeout(()=>{if(!isPlaying)master.gain.setValueAtTime(.5,audioCtx.currentTime)},400)}}
+audioBtn.onclick=()=>{if(!isPlaying){isPlaying=true;audioBtn.textContent='⏸️ Pause Soul Melody';startMelody()}else{isPlaying=false;audioBtn.textContent='🔈 Play Soul Melody';stopMelody()}};updatePage();animate();
+</script></body></html>
