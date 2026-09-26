@@ -1,0 +1,58 @@
+name: Release sub-5mb App
+on: [push]
+
+jobs:
+  build-tauri:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js system environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Native Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Reorganize App in Root Space
+        run: |
+          mkdir tauri-core
+          mv index.html tauri-core/
+          mv style.css tauri-core/ || true
+          mv script.js tauri-core/ || true
+          mv tauri.conf.json tauri-core/
+
+      - name: Inject Rust Manifest Structure
+        run: |
+          mkdir tauri-core/src-tauri
+          mkdir tauri-core/src-tauri/src
+          mv tauri-core/tauri.conf.json tauri-core/src-tauri/
+          echo "[package]" > tauri-core/src-tauri/Cargo.toml
+          echo "name = \"waterfall-app\"" >> tauri-core/src-tauri/Cargo.toml
+          echo "version = \"1.0.0\"" >> tauri-core/src-tauri/Cargo.toml
+          echo "edition = \"2021\"" >> tauri-core/src-tauri/Cargo.toml
+          echo "[dependencies]" >> tauri-core/src-tauri/Cargo.toml
+          echo "tauri = { version = \"1.8\", features = [ \"shell-open\" ] }" >> tauri-core/src-tauri/Cargo.toml
+          echo "[profile.release]" >> tauri-core/src-tauri/Cargo.toml
+          echo "opt-level = 'z'" >> tauri-core/src-tauri/Cargo.toml
+          echo "lto = true" >> tauri-core/src-tauri/Cargo.toml
+          echo "codegen-units = 1" >> tauri-core/src-tauri/Cargo.toml
+          echo "panic = 'abort'" >> tauri-core/src-tauri/Cargo.toml
+          echo "strip = true" >> tauri-core/src-tauri/Cargo.toml
+          echo "fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect(\"error\"); }" > tauri-core/src-tauri/src/main.rs
+
+      - name: Install Tauri CLI Package Tools
+        run: cd tauri-core && npm install @tauri-apps/cli@1.8
+
+      - name: Compile Standalone Application Binary
+        run: cd tauri-core && npx tauri build --target x86_64-pc-windows-msvc
+
+      - name: Upload Finished Standalone App
+        uses: actions/upload-artifact@v4
+        with:
+          name: Standalone-Offline-Executable
+          path: tauri-core/src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
