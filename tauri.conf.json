@@ -1,0 +1,21 @@
+{
+  "build": {
+    "distDir": "."
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.waterfall.soulapp",
+      "icon": []
+    },
+    "windows": [
+      {
+        "title": "The Waterfall of the Soul",
+        "width": 1100,
+        "height": 720,
+        "resizable": true
+      }
+    ]
+  }
+}
