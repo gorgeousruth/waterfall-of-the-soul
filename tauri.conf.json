@@ -1,21 +1,51 @@
-{
-  "build": {
-    "distDir": "."
-  },
-  "tauri": {
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.waterfall.soulapp",
-      "icon": []
-    },
-    "windows": [
-      {
-        "title": "The Waterfall of the Soul",
-        "width": 1100,
-        "height": 720,
-        "resizable": true
-      }
-    ]
-  }
-}
+name: Release sub-5mb App
+on: [push]
+
+jobs:
+  build-tauri:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js system environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Native Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Set up Optimization Flags
+        run: |
+          mkdir src-tauri
+          mv tauri.conf.json src-tauri/
+          echo "[package]" > src-tauri/Cargo.toml
+          echo "name = \"waterfall-app\"" >> src-tauri/Cargo.toml
+          echo "version = \"1.0.0\"" >> src-tauri/Cargo.toml
+          echo "edition = \"2021\"" >> src-tauri/Cargo.toml
+          echo "[dependencies]" >> src-tauri/Cargo.toml
+          echo "tauri = { version = \"1.8\", features = [ \"shell-open\" ] }" >> src-tauri/Cargo.toml
+          echo "[profile.release]" >> src-tauri/Cargo.toml
+          echo "opt-level = 'z'" >> src-tauri/Cargo.toml
+          echo "lto = true" >> src-tauri/Cargo.toml
+          echo "codegen-units = 1" >> src-tauri/Cargo.toml
+          echo "panic = 'abort'" >> src-tauri/Cargo.toml
+          echo "strip = true" >> src-tauri/Cargo.toml
+          echo "fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect(\"error\"); }" > src-tauri/main.rs
+
+      - name: Install Tauri Runner Packages
+        run: |
+          npm install @tauri-apps/cli@1.8
+
+      - name: Compile and Compress Executable
+        run: |
+          npx tauri build --target x86_64-pc-windows-msvc
+
+      - name: Upload Finished Standalone App
+        uses: actions/upload-artifact@v4
+        with:
+          name: Standalone-Offline-Executable
+          path: src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
