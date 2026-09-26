@@ -18,41 +18,35 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Safely Organize Tauri Workspace
-        shell: cmd
+      - name: Create Pristine Tauri Workspace Template
         run: |
-          mkdir tauri-core
-          mkdir tauri-core\src-tauri
-          mkdir tauri-core\src-tauri\src
-          
-          if exist index.html move index.html tauri-core\
-          if exist style.css move style.css tauri-core\
-          if exist script.js move script.js tauri-core\
-          if exist tauri.conf.json move tauri.conf.json tauri-core\src-tauri\
+          npx create-tauri-app@latest tauri-core --y -- --project-name "waterfall-app" --template vanilla --package-manager npm --frontend-dist "../dist-app"
 
-      - name: Inject Rust Manifest Configs
+      - name: Inject Your Existing Web Code Files
         shell: cmd
         run: |
-          echo [package]> tauri-core\src-tauri\Cargo.toml
-          echo name = "waterfall-app">> tauri-core\src-tauri\Cargo.toml
-          echo version = "1.0.0">> tauri-core\src-tauri\Cargo.toml
-          echo edition = "2021">> tauri-core\src-tauri\Cargo.toml
-          echo [dependencies]>> tauri-core\src-tauri\Cargo.toml
-          echo tauri = { version = "1.8", features = [ "shell-open" ] }>> tauri-core\src-tauri\Cargo.toml
+          mkdir dist-app
+          if exist index.html copy index.html dist-app\
+          if exist style.css copy style.css dist-app\
+          if exist script.js copy script.js dist-app\
+
+      - name: Configure Micro Optimization Settings
+        shell: cmd
+        run: |
+          echo. >> tauri-core\src-tauri\Cargo.toml
           echo [profile.release]>> tauri-core\src-tauri\Cargo.toml
           echo opt-level = "z">> tauri-core\src-tauri\Cargo.toml
           echo lto = true>> tauri-core\src-tauri\Cargo.toml
           echo codegen-units = 1>> tauri-core\src-tauri\Cargo.toml
           echo panic = "abort">> tauri-core\src-tauri\Cargo.toml
           echo strip = true>> tauri-core\src-tauri\Cargo.toml
-          echo fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect("error"); }> tauri-core\src-tauri\src\main.rs
 
-      - name: Install Tauri CLI Package Tools
+      - name: Install Dependencies
         run: |
           cd tauri-core
-          npm install @tauri-apps/cli@1.8
+          npm install
 
-      - name: Compile Standalone Application Binary
+      - name: Compile and Compress Executable
         run: |
           cd tauri-core
           npx tauri build --target x86_64-pc-windows-msvc
