@@ -18,10 +18,11 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Set up Optimization Flags
+      - name: Setup Pristine Tauri Folder System
         run: |
           mkdir src-tauri
           mv tauri.conf.json src-tauri/
+          
           echo "[package]" > src-tauri/Cargo.toml
           echo "name = \"waterfall-app\"" >> src-tauri/Cargo.toml
           echo "version = \"1.0.0\"" >> src-tauri/Cargo.toml
@@ -34,7 +35,9 @@ jobs:
           echo "codegen-units = 1" >> src-tauri/Cargo.toml
           echo "panic = 'abort'" >> src-tauri/Cargo.toml
           echo "strip = true" >> src-tauri/Cargo.toml
-          echo "fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect(\"error\"); }" > src-tauri/main.rs
+          
+          mkdir src-tauri/src
+          echo "fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect(\"error\"); }" > src-tauri/src/main.rs
 
       - name: Install Tauri Runner Packages
         run: |
