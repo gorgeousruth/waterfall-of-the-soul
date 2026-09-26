@@ -18,38 +18,44 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Reorganize App in Root Space
+      - name: Safely Organize Tauri Workspace
+        shell: cmd
         run: |
           mkdir tauri-core
-          mv index.html tauri-core/
-          mv style.css tauri-core/ || true
-          mv script.js tauri-core/ || true
-          mv tauri.conf.json tauri-core/
+          mkdir tauri-core\src-tauri
+          mkdir tauri-core\src-tauri\src
+          
+          if exist index.html move index.html tauri-core\
+          if exist style.css move style.css tauri-core\
+          if exist script.js move script.js tauri-core\
+          if exist tauri.conf.json move tauri.conf.json tauri-core\src-tauri\
 
-      - name: Inject Rust Manifest Structure
+      - name: Inject Rust Manifest Configs
+        shell: cmd
         run: |
-          mkdir tauri-core/src-tauri
-          mkdir tauri-core/src-tauri/src
-          mv tauri-core/tauri.conf.json tauri-core/src-tauri/
-          echo "[package]" > tauri-core/src-tauri/Cargo.toml
-          echo "name = \"waterfall-app\"" >> tauri-core/src-tauri/Cargo.toml
-          echo "version = \"1.0.0\"" >> tauri-core/src-tauri/Cargo.toml
-          echo "edition = \"2021\"" >> tauri-core/src-tauri/Cargo.toml
-          echo "[dependencies]" >> tauri-core/src-tauri/Cargo.toml
-          echo "tauri = { version = \"1.8\", features = [ \"shell-open\" ] }" >> tauri-core/src-tauri/Cargo.toml
-          echo "[profile.release]" >> tauri-core/src-tauri/Cargo.toml
-          echo "opt-level = 'z'" >> tauri-core/src-tauri/Cargo.toml
-          echo "lto = true" >> tauri-core/src-tauri/Cargo.toml
-          echo "codegen-units = 1" >> tauri-core/src-tauri/Cargo.toml
-          echo "panic = 'abort'" >> tauri-core/src-tauri/Cargo.toml
-          echo "strip = true" >> tauri-core/src-tauri/Cargo.toml
-          echo "fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect(\"error\"); }" > tauri-core/src-tauri/src/main.rs
+          echo [package]> tauri-core\src-tauri\Cargo.toml
+          echo name = "waterfall-app">> tauri-core\src-tauri\Cargo.toml
+          echo version = "1.0.0">> tauri-core\src-tauri\Cargo.toml
+          echo edition = "2021">> tauri-core\src-tauri\Cargo.toml
+          echo [dependencies]>> tauri-core\src-tauri\Cargo.toml
+          echo tauri = { version = "1.8", features = [ "shell-open" ] }>> tauri-core\src-tauri\Cargo.toml
+          echo [profile.release]>> tauri-core\src-tauri\Cargo.toml
+          echo opt-level = "z">> tauri-core\src-tauri\Cargo.toml
+          echo lto = true>> tauri-core\src-tauri\Cargo.toml
+          echo codegen-units = 1>> tauri-core\src-tauri\Cargo.toml
+          echo panic = "abort">> tauri-core\src-tauri\Cargo.toml
+          echo strip = true>> tauri-core\src-tauri\Cargo.toml
+          echo fn main() { tauri::Builder::default().run(tauri::generate_context!()).expect("error"); }> tauri-core\src-tauri\src\main.rs
 
       - name: Install Tauri CLI Package Tools
-        run: cd tauri-core && npm install @tauri-apps/cli@1.8
+        run: |
+          cd tauri-core
+          npm install @tauri-apps/cli@1.8
 
       - name: Compile Standalone Application Binary
-        run: cd tauri-core && npx tauri build --target x86_64-pc-windows-msvc
+        run: |
+          cd tauri-core
+          npx tauri build --target x86_64-pc-windows-msvc
 
       - name: Upload Finished Standalone App
         uses: actions/upload-artifact@v4
